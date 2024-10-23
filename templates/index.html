@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Automation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="head-container">
+            <h1>YouTube Automation</h1>
+            <img src="{{ url_for('static', filename='images/youtube-actions.jpg') }}"  alt="YouTube Automation"
+                class="heading-image">
+        </div>
+        <div class="form-container">
+            <form action="/submit" method="post">
+                <div id="show-input-section" style="display:none;">
+                    <label for="video_url">YouTube Video URL:</label>
+                    <input type="text" id="video_url" name="video_url" placeholder="Enter the video URL" required autocomplete="off">
+
+                    <label for="comment_text">Comments are Posted randomly.</label>
+                    <!-- <input type="text" id="comment_text" name="comment_text" placeholder="Enter your comment"> -->
+                </div>
+
+                <label for="account_choice">Do you want to use a new or old account?</label>
+                <select id="account_choice" name="account_choice">
+                    <option value="new">New</option>
+                    <option value="old">Old</option>
+                </select>
+
+                <div id="show-accountname-section" style="display:none;">
+                    <label for="account_name">Enter New Account Name: @Mail-id</label>
+                    <input type="text" id="account_name" name="account_name" placeholder="Enter the account name">
+                </div>
+
+                <div id="account-number-section" style="display:none;">
+                    <div style="display:none; display: flex; flex-direction: row;">
+                        <label for="num_accounts" style="justify-content: flex-start;">Number of Accounts to
+                            Use:</label>
+                        <label>
+                            <span id="account-count">0</span>
+                        </label>
+                    </div>
+                    <input type="number" id="num_accounts" name="num_accounts" min="1" value="1">
+                </div>
+
+                <button class="form-btn" type="submit">Submit</button>
+            </form>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    // Initial setup based on the default selected value
+                    handleAccountChoice($('#account_choice').val());
+
+                    // Event listener for dropdown change
+                    $('#account_choice').on('change', function () {
+                        handleAccountChoice(this.value);
+                    });
+
+                    // Event listener for changes to the number of accounts input
+                    $('#num_accounts').on('input', function () {
+                        if ($('#account_choice').val() === 'old') {
+                            var selectedAccounts = parseInt($(this).val());
+                            var availableAccounts = parseInt($('#account-count').text());
+                            if (selectedAccounts > availableAccounts) {
+                                alert(`You cannot select more than ${availableAccounts} accounts.`);
+                                $(this).val(availableAccounts);
+                            }
+                        }
+                    });
+
+                    // Function to handle account choice display logic
+                    function handleAccountChoice(choice) {
+                        if (choice === 'old') {
+                            $('#available-accounts-section').show();
+                            $('#show-input-section').show();
+                            fetchAvailableAccountCount();
+                            $('#account-number-section').show();
+                            $('#show-accountname-section').hide();
+                        } else {
+                            $('#show-accountname-section').show();
+                            $('#available-accounts-section').hide();
+                            $('#account-number-section').hide();
+                            $('#account-count').text('0');
+                            $('#show-input-section').hide();
+                        }
+                    }
+
+                    // Function to make an AJAX request to get available account count
+                    function fetchAvailableAccountCount() {
+                        $.ajax({
+                            url: '/get_available_accounts',  // Correct backend route
+                            method: 'GET',
+                            success: function (data) {
+                                // Update the account count and set max for input
+                                $('#account-count').text(data.count); // Set the text to reflect available accounts
+                                $('#num_accounts').attr('max', data.count); // Limit input max value
+                                if (data.count > 0) {
+                                    $('#num_accounts').val(1); // Set default to 1 if accounts are available
+                                } else {
+                                    $('#num_accounts').val(0); // Set to 0 if no accounts are available
+                                }
+                            },
+                            error: function () {
+                                console.error("Failed to fetch available account count.");
+                                $('#account-count').text('0');
+                                $('#num_accounts').val(0);  // Reset values in case of error
+                            }
+                        });
+                    }
+
+                });
+
+                window.onload = function () {
+                    var message = "{{ message|safe }}";
+                    if (message) {
+                        alert(message);
+                    }
+                };
+            </script>
+
+
+        </div>
+    </div>
+</body>
+
+</html>

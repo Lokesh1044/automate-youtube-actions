@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    /* Cool gradient background */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.container {
+    display: flex;
+    /* Use flexbox to arrange items in a row */
+    align-items: flex-start;
+    /* Align items at the top */
+    justify-content: space-between;
+    /* Space between heading and form */
+    width: 80%;
+    animation: fadeIn 1.5s ease-in-out;
+    /* Smooth fade-in animation */
+    margin: 0 auto;
+    /* Center the container */
+}
+
+.head-container {
+    flex: 1;
+    /* Allow heading container to take available space */
+    text-align: center;
+    /* Center align the text */
+}
+
+.form-container {
+    flex: 1;
+    /* Allow form container to take available space */
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+    /* Add space between heading and form */
+    animation: fadeIn 2s ease-in-out;
+    /* Smooth fade-in animation */
+}
+
+h1 {
+    font-size: 4rem;
+    align-self: flex-start;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align-last: right;
+    margin-right: 30px;
+}
+
+/* h3 {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: black;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+    align-self: flex-end;
+} */
+
+/* Input and Select styling */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #2575fc;
+    /* Border color change on focus */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: black;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Submit button styling */
+.form-btn {
+    background-color: #6a11cb;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: large;
+    font-family: 'Times New Roman', Times, serif;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.form-btn:hover {
+    background-color: white;
+    color: #6a11cb;
+    transform: translateY(-5px);
+}
+
+.heading-image {
+    width: 60%;
+    height: auto;
+    border-radius: 10px;
+}
+
+#account-count {
+    color: white; 
+    font-size: larger; 
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center; 
+    margin-left: 10px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
